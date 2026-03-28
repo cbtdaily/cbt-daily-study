@@ -29,7 +29,7 @@
         <li>Masukkan Kode Pendaftaran dari Email.</li>
         <li>Dilarang keluar browser, mengaktifkan split-screen, atau mengambil screenshot.</li>
         <li>Layar mati ditoleransi. Pelanggaran sistem di atas 5 kali akan memblokir ujian otomatis.</li>
-        <li>Jika terputus, login kembali menggunakan kode yang sama untuk melanjutkan ujian.</li>
+        <li>Terdapat jeda istirahat 1 menit di antara perpindahan subtes.</li>
       </ul>
     </div>
     <button class="btn-utama" onclick="bukaLogin()">Masuk ke Ruang Ujian</button>
@@ -43,6 +43,18 @@
     <button class="btn-utama" id="btn-login" onclick="prosesLogin()">Verifikasi & Mulai</button>
   </div>
 
+  <div id="jeda-screen">
+    <div class="landing-header">
+      <h1>Waktu Istirahat</h1>
+      <p>Persiapkan diri untuk subtes berikutnya</p>
+    </div>
+    <div style="text-align: center; margin: 40px 0;">
+      <div style="font-size: 64px; font-weight: 800; color: #2d3748;" id="timer-jeda">01:00</div>
+      <p style="color: #718096;">Subtes berikutnya: <strong id="nama-next-subtest" style="color: #1a202c;">-</strong></p>
+    </div>
+    <button id="btn-skip-jeda" class="btn-utama" onclick="skipJeda()">Lewati Istirahat (Mulai Sekarang)</button>
+  </div>
+
   <div id="ujian-screen">
     <div class="header-ujian">
       <div class="header-kiri">
@@ -54,13 +66,27 @@
         <span id="waktu-teks">00:00</span>
       </div>
     </div>
-    <div class="navigasi-container">
-      <h4>Navigasi Soal</h4>
-      <div id="navigasi-grid" class="nav-grid"></div>
+    
+    <div class="layout-ujian">
+      <div class="panel-soal">
+        <div id="tempat-soal">Mempersiapkan materi...</div>
+        
+        <div class="nav-bawah">
+          <button id="btn-prev" class="btn-nav" onclick="gantiSoal(-1)">&#8592; Sebelumnya</button>
+          <label class="label-ragu" style="margin: 0 10px;">
+            <input type="checkbox" id="cb-ragu" onchange="toggleRagu()" style="accent-color:#b7791f; cursor:pointer;"> Ragu
+          </label>
+          <button id="btn-next" class="btn-nav" onclick="gantiSoal(1)">Selanjutnya &#8594;</button>
+        </div>
+      </div>
+
+      <div class="panel-navigasi">
+        <h4 style="margin-top:0;">Daftar Soal</h4>
+        <div id="navigasi-grid" class="nav-grid"></div>
+        <button id="btn-next-subtest" class="btn-lanjut" onclick="mintaLanjutSubtest()" style="display:none; margin-top:20px;">Selesai Subtes Ini</button>
+        <button id="btn-kirim-akhir" onclick="mintaAkhiriUjian()" class="btn-lanjut" style="background:#c53030; display:none; margin-top:20px;">Akhiri Tryout</button>
+      </div>
     </div>
-    <div id="tempat-soal">Mempersiapkan materi...</div>
-    <button id="btn-next-subtest" class="btn-lanjut" onclick="lanjutSubtest()" style="display:none;">Selesai Subtes & Lanjut</button>
-    <button id="btn-kirim-akhir" onclick="kirimJawabanAkhir()" class="btn-lanjut" style="background:#c53030; display:none;">Akhiri Tryout</button>
   </div>
 
   <div id="hasil-screen">
