@@ -1,4 +1,4 @@
-// GANTI DENGAN WEB APP URL MILIKMU (Hasil dari New Deployment)
+// GANTI DENGAN WEB APP URL MILIKMU (Hasil dari New Deployment Apps Script)
 const API_URL = "https://script.google.com/macros/s/AKfycbxW1HqrkQifaNjXT0V5pGtNu6Ncu2ehdtAZGij4w1vPL-fAIzbp7dwRzpHmg8FEuL8J/exec"; 
 
 let namaSiswa = "", kodeAktif = "", myDeviceId = "";
@@ -102,7 +102,6 @@ function mulaiSubtest(index, overrideWaktu = null) {
   document.getElementById("btn-next-subtest").style.display = (index < urutanSubtestSiswa.length - 1) ? "block" : "none";
   document.getElementById("btn-kirim-akhir").style.display = (index === urutanSubtestSiswa.length - 1) ? "block" : "none";
 
-  // FILTER YANG DIPERBAIKI (Tahan banting terhadap spasi salah)
   let soalSub = semuaSoal.filter(s => s.subtest.trim().toUpperCase() === config.id.trim().toUpperCase());
   
   if (soalSub.length === 0) {
@@ -136,12 +135,19 @@ function bukaSoal(index) {
   const ans = jawabanSiswa[id] || ""; 
   const isRagu = raguSiswa[id] ? true : false;
   
+  // PERBAIKAN BUG: Ubah teks menjadi format String murni untuk mencegah error pada angka
+  let teksSoalStr = String(soal.teksSoal !== undefined && soal.teksSoal !== null ? soal.teksSoal : "");
   let kontenSoal = "";
-  if(soal.teksSoal) {
-    if(soal.teksSoal.startsWith('http')) kontenSoal = `<img src="${soal.teksSoal}">`;
-    else kontenSoal = `<div class="teks-soal">${soal.teksSoal.replace(/\n/g, '<br>')}</div>`;
+  if(teksSoalStr) {
+    if(teksSoalStr.startsWith('http')) kontenSoal = `<img src="${teksSoalStr}">`;
+    else kontenSoal = `<div class="teks-soal">${teksSoalStr.replace(/\n/g, '<br>')}</div>`;
   }
-  const renderOpsi = (optText) => optText.startsWith('http') ? `<img src="${optText}" style="max-height:80px;">` : optText.replace(/\n/g, '<br>');
+
+  // PERBAIKAN BUG OPSI: Pastikan angka diperlakukan sebagai teks
+  const renderOpsi = (optText) => {
+    let str = String(optText !== undefined && optText !== null ? optText : "");
+    return str.startsWith('http') ? `<img src="${str}" style="max-height:80px;">` : str.replace(/\n/g, '<br>');
+  };
 
   let htmlSoal = `
     <div class="soal-card">
