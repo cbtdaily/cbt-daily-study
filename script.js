@@ -10,6 +10,7 @@ let soalSubtestSaatIni = [];
 let jedaInterval, detikJeda = 60; 
 let jumlahPelanggaran = 0;
 const maxPelanggaran = 5; 
+let lastPelanggaranTime = 0; // Variabel baru untuk menahan Double-Trigger Anti-Cheat
 
 window.onload = function() {
   myDeviceId = localStorage.getItem("cbt_device_id") || "DEV-" + Math.random().toString(36).substr(2, 9);
@@ -135,7 +136,6 @@ function bukaSoal(index) {
   const ans = jawabanSiswa[id] || ""; 
   const isRagu = raguSiswa[id] ? true : false;
   
-  // PERBAIKAN BUG: Ubah teks menjadi format String murni untuk mencegah error pada angka
   let teksSoalStr = String(soal.teksSoal !== undefined && soal.teksSoal !== null ? soal.teksSoal : "");
   let kontenSoal = "";
   if(teksSoalStr) {
@@ -143,7 +143,6 @@ function bukaSoal(index) {
     else kontenSoal = `<div class="teks-soal">${teksSoalStr.replace(/\n/g, '<br>')}</div>`;
   }
 
-  // PERBAIKAN BUG OPSI: Pastikan angka diperlakukan sebagai teks
   const renderOpsi = (optText) => {
     let str = String(optText !== undefined && optText !== null ? optText : "");
     return str.startsWith('http') ? `<img src="${str}" style="max-height:80px;">` : str.replace(/\n/g, '<br>');
@@ -267,13 +266,35 @@ async function kirimJawabanAkhir() {
   } else { document.getElementById("hasil-konten").innerHTML = `<h2 style="color:#c53030;">Gagal Menyimpan</h2>`; }
 }
 
+// ==========================================
+// ANTI-CHEAT YANG SUDAH KEBAL BUG
+// ==========================================
 function peringatkan(jenis) {
-  if(!ujianAktif) return; jumlahPelanggaran++;
+  if(!ujianAktif) return; 
+  
+  // Cooldown 2 Detik agar sensor HP tidak menghitung double saat keluar tab
+  let now = Date.now();
+  if (now - lastPelanggaranTime < 2000) return; 
+  lastPelanggaranTime = now;
+
+  jumlahPelanggaran++;
   panggilAPI({ action: "curang", nama: namaSiswa + " (" + kodeAktif + ")", jenis: jenis });
+  
   const alertBox = document.getElementById("alert-curang");
-  alertBox.style.display = "flex"; document.getElementById("alert-text").innerText = `Peringatan ${jumlahPelanggaran}/${maxPelanggaran}: ${jenis}.`;
-  setTimeout(() => { alertBox.style.display = "none"; }, 6000);
-  if(jumlahPelanggaran >= maxPelanggaran) { alert("AKSES DIBLOKIR."); kirimJawabanAkhir(); }
+  alertBox.style.display = "flex"; 
+  document.getElementById("alert-text").innerText = `Peringatan ${jumlahPelanggaran}/${maxPelanggaran}: ${jenis}.`;
+  
+  setTimeout(() => { alertBox.style.display = "none"; }, 5000);
+  
+  if(jumlahPelanggaran >= maxPelanggaran) { 
+    alert("Batas pelanggaran tercapai. Ujian Anda dihentikan paksa oleh sistem!"); 
+    kirimJawabanAkhir(); 
+  }
 }
-document.addEventListener("visibilitychange", function() { if (document.hidden && ujianAktif) peringatkan("Layar Mati/Pindah Tab"); });
-window.addEventListener("blur", function() { if (ujianAktif) peringatkan("Split Screen"); });
+
+document.addEventListener("visibilitychange", function() { 
+  if (document.visibilityState === 'hidden' && ujianAktif) peringatkan("Keluar dari tab ujian / Layar mati"); 
+});
+window.addEventListener("blur", function() { 
+  if (ujianAktif) peringatkan("Membuka aplikasi lain / Split screen"); 
+});
