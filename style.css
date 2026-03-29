@@ -5,7 +5,6 @@ img { pointer-events: none; -webkit-touch-callout: none; max-width: 100%; height
 
 .container { max-width: 1000px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 
-/* --- HEADER & LANDING --- */
 .landing-header { text-align: center; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #edf2f7; }
 .landing-header h1 { color: #1a202c; margin: 0 0 8px 0; font-size: 26px; font-weight: 700; letter-spacing: -0.5px;}
 .landing-header p { color: #718096; margin: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;}
@@ -20,19 +19,15 @@ img { pointer-events: none; -webkit-touch-callout: none; max-width: 100%; height
 .input-kode { width: 100%; padding: 16px; margin-bottom: 20px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 18px; text-align: center; text-transform: uppercase; font-weight: 600; letter-spacing: 2px; color: #1a202c;}
 .input-kode:focus { border-color: #4a5568; outline: none; box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.1); }
 
-/* --- UJIAN HEADER --- */
 .header-ujian { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 16px; border-radius: 6px; margin-bottom: 24px; border: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
 .subtest-title { font-size: 16px; font-weight: 700; margin: 0; color: #1a202c;}
 .nama-display { font-size: 13px; color: #718096; }
 .timer-box { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 18px; font-weight: 700; color: #1a202c; background: #f7fafc; padding: 8px 16px; border-radius: 4px; border: 1px solid #e2e8f0;}
-.icon-svg { width: 18px; height: 18px; fill: currentColor; }
 
-/* --- LAYOUT UTAMA --- */
 .layout-ujian { display: flex; gap: 24px; align-items: flex-start; }
 .panel-soal { flex: 1; min-width: 0; }
 .panel-navigasi { width: 280px; background: #f7fafc; padding: 20px; border-radius: 6px; border: 1px solid #e2e8f0; position: sticky; top: 90px;}
 
-/* --- NAVIGASI GRID --- */
 .nav-grid { display: flex; flex-wrap: wrap; gap: 8px; }
 .nav-box { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #edf2f7; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 14px; color: #4a5568; transition: all 0.2s; border: 1px solid transparent;}
 .nav-box:hover { background: #e2e8f0; }
@@ -40,7 +35,6 @@ img { pointer-events: none; -webkit-touch-callout: none; max-width: 100%; height
 .nav-box.dijawab { background: #2d3748; color: #ffffff; border-color: #2d3748;}
 .nav-box.ragu { background: #ecc94b; color: #1a202c; border-color: #ecc94b;}
 
-/* --- SOAL KONTEN --- */
 .soal-card { border: 1px solid #e2e8f0; padding: 24px; border-radius: 6px; background: #ffffff; min-height: 400px;}
 .soal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #edf2f7; padding-bottom: 16px; }
 .soal-nomor { font-size: 18px; font-weight: 700; color: #1a202c;}
@@ -51,7 +45,6 @@ img { pointer-events: none; -webkit-touch-callout: none; max-width: 100%; height
 .opsi-label:hover { background-color: #f7fafc; border-color: #cbd5e0; }
 .opsi-label input[type="radio"] { margin-top: 3px; cursor: pointer; flex-shrink: 0; width: 18px; height: 18px; accent-color: #2d3748;}
 
-/* --- TOMBOL NAVIGASI BAWAH --- */
 .nav-bawah { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid #edf2f7;}
 .btn-nav { background: #edf2f7; color: #4a5568; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; font-size: 14px; flex: 1; text-align: center;}
 .btn-nav:hover:not(:disabled) { background: #e2e8f0; }
@@ -65,37 +58,23 @@ button.btn-lanjut { background: #4a5568; color: #ffffff; width: 100%; padding: 1
 button.btn-lanjut:hover { background: #2d3748; }
 
 #landing-screen, #login-screen, #ujian-screen, #hasil-screen, #jeda-screen { display: none; }
-.alert-box { display: none; background: #fff5f5; color: #c53030; padding: 16px; border-radius: 6px; margin-bottom: 24px; text-align: center; font-weight: 600; border: 1px solid #feb2b2; font-size: 14px; align-items: center; justify-content: center; gap: 8px;}
+.alert-box { display: none; background: #fff5f5; color: #c53030; padding: 16px; border-radius: 6px; margin-bottom: 24px; text-align: center; font-weight: 600; border: 1px solid #feb2b2; font-size: 14px; justify-content: center;}
 .result-card { background: #ffffff; padding: 30px; border-radius: 8px; border: 1px solid #e2e8f0; margin-top: 24px; text-align: left;}
 .result-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #edf2f7; font-size: 15px;}
 .result-row:last-child { border-bottom: none; }
 
-/* ========================================================= */
-/* PENGATURAN RESPONSIVE KHUSUS MOBILE (HP)                  */
-/* ========================================================= */
 @media (max-width: 768px) {
   body { padding: 0; background-color: #ffffff; }
   .container { padding: 16px; border: none; border-radius: 0; box-shadow: none; }
-  
-  /* Layout soal di atas, navigasi kotak di bawah */
   .layout-ujian { flex-direction: column; gap: 16px; }
-  
-  /* Panel Navigasi Grid (Lepas sticky agar tidak menumpuk) */
   .panel-navigasi { width: 100%; position: static; padding: 16px; margin-top: 10px; }
   .nav-grid { justify-content: center; }
-  .nav-box { width: 40px; height: 40px; font-size: 15px; } /* Besarkan sedikit agar mudah ditap */
-
-  /* Header Ujian & Timer (Buat tumpuk rapi) */
+  .nav-box { width: 40px; height: 40px; font-size: 15px; }
   .header-ujian { flex-direction: column; align-items: flex-start; gap: 12px; position: static; padding: 12px;}
   .header-kiri { width: 100%; }
   .timer-box { width: 100%; justify-content: center; padding: 12px; font-size: 20px;}
-
-  /* Soal Card & Opsi */
-  .soal-card { padding: 16px; border: none; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 0; min-height: auto;}
-  .opsi-label { padding: 16px; } /* Perbesar area klik opsi */
-
-  /* Tombol Bawah (Sebelumnya, Ragu, Selanjutnya) jadikan bertumpuk/full width */
+  .soal-card { padding: 16px; border: none; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 0;}
+  .opsi-label { padding: 16px; }
   .nav-bawah { flex-direction: column; gap: 12px; padding-top: 24px; }
-  .btn-nav { width: 100%; padding: 16px; font-size: 15px;}
-  .label-ragu { width: 100%; margin: 0; padding: 16px; }
+  .btn-nav, .label-ragu { width: 100%; padding: 16px; font-size: 15px; margin: 0;}
 }

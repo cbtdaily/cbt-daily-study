@@ -1,13 +1,13 @@
-// GANTI DENGAN URL APPS SCRIPT-MU
+// GANTI DENGAN WEB APP URL MILIKMU (Hasil dari New Deployment)
 const API_URL = "https://script.google.com/macros/s/AKfycbxW1HqrkQifaNjXT0V5pGtNu6Ncu2ehdtAZGij4w1vPL-fAIzbp7dwRzpHmg8FEuL8J/exec"; 
 
 let namaSiswa = "", kodeAktif = "", myDeviceId = "";
 let jawabanSiswa = {}, raguSiswa = {}, semuaSoal = [], urutanSubtestSiswa = [];
 let ujianAktif = false, currentSubtestIndex = 0, timerInterval, sisaDetik = 0;
-let soalAktifIndex = 0; // Menandakan nomor soal yang sedang dibuka
-let soalSubtestSaatIni = []; // Menyimpan soal-soal di subtes yang sedang aktif
+let soalAktifIndex = 0; 
+let soalSubtestSaatIni = []; 
 
-let jedaInterval, detikJeda = 60; // 1 Menit Jeda
+let jedaInterval, detikJeda = 60; 
 let jumlahPelanggaran = 0;
 const maxPelanggaran = 5; 
 
@@ -102,17 +102,22 @@ function mulaiSubtest(index, overrideWaktu = null) {
   document.getElementById("btn-next-subtest").style.display = (index < urutanSubtestSiswa.length - 1) ? "block" : "none";
   document.getElementById("btn-kirim-akhir").style.display = (index === urutanSubtestSiswa.length - 1) ? "block" : "none";
 
-  let soalSub = semuaSoal.filter(s => s.subtest.toUpperCase() === config.id.toUpperCase());
+  // FILTER YANG DIPERBAIKI (Tahan banting terhadap spasi salah)
+  let soalSub = semuaSoal.filter(s => s.subtest.trim().toUpperCase() === config.id.trim().toUpperCase());
+  
+  if (soalSub.length === 0) {
+    document.getElementById("tempat-soal").innerHTML = `<div class="teks-soal" style="color:red; font-weight:bold;">Error: Soal untuk subtes ${config.nama} tidak ditemukan. Periksa nama sheet di Spreadsheet.</div>`;
+  }
+
   soalSubtestSaatIni = overrideWaktu !== null ? soalSub : acakArray(soalSub);
   
   buatPetaNavigasi();
-  bukaSoal(0); // Buka soal nomor 1
+  bukaSoal(0); 
 
   sisaDetik = overrideWaktu !== null ? overrideWaktu : config.waktu * 60; 
   jalankanTimer();
 }
 
-// --- FUNGSI SINGLE PAGE ---
 function buatPetaNavigasi() {
   let htmlNav = "";
   soalSubtestSaatIni.forEach((soal, index) => {
@@ -140,9 +145,7 @@ function bukaSoal(index) {
 
   let htmlSoal = `
     <div class="soal-card">
-      <div class="soal-header">
-        <span class="soal-nomor">Soal Nomor ${index + 1}</span>
-      </div>
+      <div class="soal-header"><span class="soal-nomor">Soal Nomor ${index + 1}</span></div>
       ${kontenSoal}
       <div class="opsi-container">
         ${['A','B','C','D','E'].map(opt => `
@@ -158,7 +161,6 @@ function bukaSoal(index) {
   document.getElementById("tempat-soal").innerHTML = htmlSoal;
   document.getElementById("cb-ragu").checked = isRagu;
   
-  // Atur visibilitas tombol prev/next
   document.getElementById("btn-prev").disabled = (index === 0);
   document.getElementById("btn-next").disabled = (index === soalSubtestSaatIni.length - 1);
   
@@ -191,7 +193,6 @@ function updateSemuaWarnaNav() {
     else if (jawabanSiswa[soal.id]) box.classList.add("dijawab");
   });
 }
-// --- END FUNGSI SINGLE PAGE ---
 
 function jalankanTimer() {
   clearInterval(timerInterval); updateTampilanWaktu();
@@ -217,7 +218,6 @@ function mintaAkhiriUjian() {
   if(confirm("Apakah Anda yakin ingin mengakhiri seluruh tryout?")) { kirimJawabanAkhir(); }
 }
 
-// --- FUNGSI JEDA ISTIRAHAT ---
 function masukJeda() {
   ujianAktif = false; clearInterval(timerInterval);
   if(currentSubtestIndex + 1 >= urutanSubtestSiswa.length) { kirimJawabanAkhir(); return; }
@@ -261,7 +261,6 @@ async function kirimJawabanAkhir() {
   } else { document.getElementById("hasil-konten").innerHTML = `<h2 style="color:#c53030;">Gagal Menyimpan</h2>`; }
 }
 
-// --- ANTI CHEAT ---
 function peringatkan(jenis) {
   if(!ujianAktif) return; jumlahPelanggaran++;
   panggilAPI({ action: "curang", nama: namaSiswa + " (" + kodeAktif + ")", jenis: jenis });

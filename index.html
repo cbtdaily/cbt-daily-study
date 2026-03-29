@@ -14,7 +14,6 @@
 
 <div class="container">
   <div id="alert-curang" class="alert-box" style="display:none;">
-    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
     <span id="alert-text">Aktivitas mencurigakan terdeteksi!</span>
   </div>
 
@@ -27,18 +26,15 @@
       <strong>Tata Tertib Ujian:</strong>
       <ul>
         <li>Masukkan Kode Pendaftaran dari Email.</li>
-        <li>Dilarang keluar browser, mengaktifkan split-screen, atau mengambil screenshot.</li>
-        <li>Layar mati ditoleransi. Pelanggaran sistem di atas 5 kali akan memblokir ujian otomatis.</li>
-        <li>Terdapat jeda istirahat 1 menit di antara perpindahan subtes.</li>
+        <li>Dilarang keluar browser atau split-screen.</li>
+        <li>Terdapat jeda istirahat 1 menit antar subtes.</li>
       </ul>
     </div>
     <button class="btn-utama" onclick="bukaLogin()">Masuk ke Ruang Ujian</button>
   </div>
 
   <div id="login-screen">
-    <div class="landing-header">
-      <h1>Verifikasi Peserta</h1>
-    </div>
+    <div class="landing-header"><h1>Verifikasi Peserta</h1></div>
     <input type="text" id="kodeSiswa" class="input-kode" placeholder="KODE PENDAFTARAN" autocomplete="off" required>
     <button class="btn-utama" id="btn-login" onclick="prosesLogin()">Verifikasi & Mulai</button>
   </div>
@@ -52,7 +48,7 @@
       <div style="font-size: 64px; font-weight: 800; color: #2d3748;" id="timer-jeda">01:00</div>
       <p style="color: #718096;">Subtes berikutnya: <strong id="nama-next-subtest" style="color: #1a202c;">-</strong></p>
     </div>
-    <button id="btn-skip-jeda" class="btn-utama" onclick="skipJeda()">Lewati Istirahat (Mulai Sekarang)</button>
+    <button id="btn-skip-jeda" class="btn-utama" onclick="skipJeda()">Lewati Istirahat</button>
   </div>
 
   <div id="ujian-screen">
@@ -62,7 +58,6 @@
         <div id="nama-display" class="nama-display"></div>
       </div>
       <div id="waktu-display" class="timer-box">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
         <span id="waktu-teks">00:00</span>
       </div>
     </div>
@@ -70,11 +65,10 @@
     <div class="layout-ujian">
       <div class="panel-soal">
         <div id="tempat-soal">Mempersiapkan materi...</div>
-        
         <div class="nav-bawah">
           <button id="btn-prev" class="btn-nav" onclick="gantiSoal(-1)">&#8592; Sebelumnya</button>
-          <label class="label-ragu" style="margin: 0 10px;">
-            <input type="checkbox" id="cb-ragu" onchange="toggleRagu()" style="accent-color:#b7791f; cursor:pointer;"> Ragu
+          <label class="label-ragu">
+            <input type="checkbox" id="cb-ragu" onchange="toggleRagu()"> Ragu
           </label>
           <button id="btn-next" class="btn-nav" onclick="gantiSoal(1)">Selanjutnya &#8594;</button>
         </div>
